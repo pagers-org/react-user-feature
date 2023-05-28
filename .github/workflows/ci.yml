@@ -9,19 +9,19 @@ env:
 
   FILE_PATH_VERSION_INFO: ./packages/utils-version/src/VersionInfo.ts
 
-  FILE_PATH_BOILERPLATE_APP_BUILD_NEXT: ./apps/boilerplate-app/build-next-static
-  FILE_PATH_BOILERPLATE_APP_BUILD_STORYBOOK: ./apps/boilerplate-app/build-storybook-static
+  FILE_PATH_BOILERPLATE_APP_BUILD_NEXT: ./apps/login-basic/build-next-static
+  FILE_PATH_BOILERPLATE_APP_BUILD_STORYBOOK: ./apps/login-basic/build-storybook-static
 
-  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_NEXT: ./apps/boilerplate-website/build-next-static
-  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_STORYBOOK: ./apps/boilerplate-website/build-storybook-static
+  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_NEXT: ./apps/login-oauth/build-next-static
+  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_STORYBOOK: ./apps/login-oauth/build-storybook-static
 
   FILE_PATH_UI_BUILD: ./packages/ui/build-storybook-static
 
   CACHE_PATHS_BUILD: |
-    ./apps/boilerplate-app/build-next-static
-    ./apps/boilerplate-app/build-storybook-static
-    ./apps/boilerplate-website/build-next-static
-    ./apps/boilerplate-website/build-storybook-static
+    ./apps/login-basic/build-next-static
+    ./apps/login-basic/build-storybook-static
+    ./apps/login-oauth/build-next-static
+    ./apps/login-oauth/build-storybook-static
     ./packages/ui/build-storybook-static
   CACHE_KEY_BUILD: build-${{ github.sha }}-${{ github.ref_type }}
 

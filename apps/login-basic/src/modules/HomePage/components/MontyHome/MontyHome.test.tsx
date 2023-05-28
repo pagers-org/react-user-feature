@@ -2,10 +2,10 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithTheme } from 'utils-test';
 
-import { MontyHome } from './';
+import { MontyHome } from '.';
 
 describe('apps', () => {
-  describe('boilerplate-app', () => {
+  describe('login-basic', () => {
     describe('HomePage', () => {
       describe('components', () => {
         describe('MontyHome', () => {

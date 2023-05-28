@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <CacheProvider value={clientSideEmotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Box textAlign="center" mt={3} mb={5}>
+          <Box textAlign="center" mt={4} mb={4}>
             <Typography variant="title1">Turborepo Boilerplate - App</Typography>
             <Version version={getVersionInfo()} />
           </Box>

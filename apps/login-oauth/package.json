@@ -1,33 +1,30 @@
 {
-  "name": "boilerplate-app",
+  "name": "login-oauth",
   "version": "0.0.0",
   "scripts": {
     "build": "next build",
-    "dev": "open http://localhost:3100 && next dev --port 3100",
+    "dev": "next dev --port 3101",
     "lint": "eslint --max-warnings 0 .",
     "lint-fix": "eslint --fix .",
     "tsc": "tsc -p tsconfig.json",
-    "format-fix": "prettier --config ../../.prettierrc --write --ignore-unknown -l .",
     "test": "jest --verbose",
     "test-watch": "jest --verbose --watch",
     "test-coverage": "jest --coverage --verbose",
-    "storybook": "storybook dev -p 6100 --quiet",
+    "storybook": "storybook dev -p 6101 --quiet",
     "storybook-build": "storybook build -o build-storybook-static",
-    "update-dependencies": "npx npm-check-updates -u",
-    "api-generate-petstore": "ts-node-esm -P tsconfig.esm.json ./src/common/api/petstore/generate/index.mts && npm run format-fix"
+    "update-dependencies": "npx npm-check-updates -u"
   },
   "dependencies": {
     "config-mui": "*",
-    "react-parallax-tilt": "1.7.134",
     "ui-css-in-js": "*",
+    "ui-atomic-css": "*",
     "utils-mui": "*",
     "utils-version": "*"
   },
   "devDependencies": {
-    "chalk": "5.2.0",
     "config-storybook": "*",
+    "config-tailwind": "*",
     "config-tsconfig": "*",
-    "openapi-typescript": "6.2.4",
     "utils-test": "*"
   }
 }
