@@ -1,0 +1,314 @@
+name: CI
+
+on: push
+
+env:
+  # Use Turborepo remote caching
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+  FILE_PATH_VERSION_INFO: ./packages/utils-version/src/VersionInfo.ts
+
+  FILE_PATH_BOILERPLATE_APP_BUILD_NEXT: ./apps/boilerplate-app/build-next-static
+  FILE_PATH_BOILERPLATE_APP_BUILD_STORYBOOK: ./apps/boilerplate-app/build-storybook-static
+
+  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_NEXT: ./apps/boilerplate-website/build-next-static
+  FILE_PATH_BOILERPLATE_WEBSITE_BUILD_STORYBOOK: ./apps/boilerplate-website/build-storybook-static
+
+  FILE_PATH_UI_BUILD: ./packages/ui/build-storybook-static
+
+  CACHE_PATHS_BUILD: |
+    ./apps/boilerplate-app/build-next-static
+    ./apps/boilerplate-app/build-storybook-static
+    ./apps/boilerplate-website/build-next-static
+    ./apps/boilerplate-website/build-storybook-static
+    ./packages/ui/build-storybook-static
+  CACHE_KEY_BUILD: build-${{ github.sha }}-${{ github.ref_type }}
+
+jobs:
+  build:
+    name: Build 🏗️
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/actions/setup_node-cache_dep-install_dep
+
+      - name: Version Info 💉
+        run: |
+          COMMIT=$GITHUB_SHA
+          BRANCH=${GITHUB_REF#refs/heads/}
+          TAG=''
+          if [[ ${{ github.ref_type }} == 'tag' ]]; then
+            TAG=${GITHUB_REF#refs/tags/}
+          fi
+          echo "write tag, branch & commit id to $FILE_PATH_VERSION_INFO"
+          echo "export const VersionInfo = { tag: '$TAG', branch: '$BRANCH', commit: '$COMMIT' };" > $FILE_PATH_VERSION_INFO
+          cat $FILE_PATH_VERSION_INFO
+
+      - name: Build 🏗️
+        run: |
+          npm run build
+          npm run storybook-build
+
+      - name: Cache build ⚡
+        id: cache_build
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+  lint:
+    name: Lint ✅
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/actions/setup_node-cache_dep-install_dep
+
+      - name: Lint ✅
+        run: npm run lint
+
+  tsc:
+    name: TypeScript Compiler 🔎
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/actions/setup_node-cache_dep-install_dep
+
+      - name: TypeScript Compiler 🔎
+        run: npm run tsc
+
+  test:
+    name: Test 🧪
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
+        uses: ./.github/workflows/actions/setup_node-cache_dep-install_dep
+
+      - name: Test 🧪
+        run: npm run test
+
+  ###################################################################
+  # Deployments
+  ###################################################################
+
+  ##############
+  # App
+  ##############
+  deploy-app-stage:
+    name: Deploy App - Stage 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: App - Stage
+      url: https://turbo-app-stage.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_APP_BUILD_NEXT }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_STAGE_BOILERPLATE_APP }}
+
+  deploy-app-storybook:
+    name: Deploy App - Storybook 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: App - Storybook
+      url: https://turbo-app-storybook.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_APP_BUILD_STORYBOOK }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_BOILERPLATE_APP_STORYBOOK }}
+
+  deploy-app-prod:
+    name: Deploy App - Production 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    environment:
+      name: App - Prod
+      url: https://turbo-app-prod.netlify.app/
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_APP_BUILD_NEXT }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD_BOILERPLATE_APP }}
+
+  ##############
+  # Website
+  ##############
+
+  deploy-website-stage:
+    name: Deploy Website - Stage 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: Website - Stage
+      url: https://turbo-website-stage.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_WEBSITE_BUILD_NEXT }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_STAGE_BOILERPLATE_WEBSITE }}
+
+  deploy-website-storybook:
+    name: Deploy Website - Storybook 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: Website - Storybook
+      url: https://turbo-website-storybook.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_WEBSITE_BUILD_STORYBOOK }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_BOILERPLATE_WEBSITE_STORYBOOK }}
+
+  deploy-website-prod:
+    name: Deploy Website - Production 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    environment:
+      name: Website - Prod
+      url: https://turbo-Website-prod.netlify.app/
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_BOILERPLATE_WEBSITE_BUILD_NEXT }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD_BOILERPLATE_WEBSITE }}
+
+  ##############
+  # UI
+  ##############
+
+  deploy-ui-stage:
+    name: Deploy UI - Stage 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: UI - Stage
+      url: https://turbo-ui-stage.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_UI_BUILD }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_STAGE_UI }}
+
+  deploy-ui-prod:
+    name: Deploy UI - Prod 🚀
+    needs: [build, lint, tsc, test]
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+
+    environment:
+      name: UI - Prod
+      url: https://turbo-ui-prod.netlify.app
+
+    steps:
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.CACHE_PATHS_BUILD }}
+          key: ${{ env.CACHE_KEY_BUILD }}
+
+      - uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ${{ env.FILE_PATH_UI_BUILD }}
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD_UI }}
