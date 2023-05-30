@@ -13,8 +13,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Turborepo Boilerplate - App</title>
-        <meta name="description" content="Turborepo boilerplate." />
+        <title>Basic Login</title>
+        <meta name="description" content="Basic Login" />
         <meta name="version" content={getVersionInfo()} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -22,7 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box textAlign="center" mt={4} mb={4}>
-            <Typography variant="title1">Turborepo Boilerplate - App</Typography>
+            <Typography variant="title1">Basic Login</Typography>
             <Version version={getVersionInfo()} />
           </Box>
           {<Component {...pageProps} />}
