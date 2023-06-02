@@ -1,5 +1,11 @@
-import { CookieSessionLoginPage } from 'modules';
+import Grid from '@mui/material/Grid';
 
-const CookieSessionLogin = () => <CookieSessionLoginPage />;
+import { CookieSessionLoginPage } from '@/modules';
+
+const CookieSessionLogin = () => (
+  <Grid container component="main" sx={{ height: 'calc(100vh - 200px)' }}>
+    <CookieSessionLoginPage />
+  </Grid>
+);
 
 export default CookieSessionLogin;

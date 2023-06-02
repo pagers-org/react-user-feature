@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 
-import { HomePage } from '../modules';
+import { HomePage } from '@/modules';
 
 const Home = () => (
   <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

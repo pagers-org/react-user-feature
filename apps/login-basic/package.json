@@ -21,7 +21,8 @@
     "react-parallax-tilt": "1.7.134",
     "ui-css-in-js": "*",
     "utils-mui": "*",
-    "utils-version": "*"
+    "utils-version": "*",
+    "mock-data": "*"
   },
   "devDependencies": {
     "chalk": "5.2.0",

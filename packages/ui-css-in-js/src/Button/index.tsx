@@ -1,5 +1,5 @@
 import { ButtonTypeMap } from '@mui/material';
-import { CSSProperties, ReactNode } from 'react';
+import { type CSSProperties, type MouseEvent, type ReactNode } from 'react';
 
 import { ButtonStyled } from './styled';
 
@@ -8,7 +8,7 @@ export type ButtonProps = {
   isDisabled?: boolean;
   size?: ButtonTypeMap['props']['size'];
   bgColor?: CSSProperties['backgroundColor'];
-  onClick: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const Button = ({ children, isDisabled, size, bgColor, onClick }: ButtonProps) => {

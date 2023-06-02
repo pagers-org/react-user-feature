@@ -8,8 +8,6 @@ import { Version } from 'ui-css-in-js';
 import { createEmotionCache } from 'utils-mui';
 import { getVersionInfo } from 'utils-version';
 
-// import { Breadcrumbs } from 'common/components';
-
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, pageProps }: AppProps) => {

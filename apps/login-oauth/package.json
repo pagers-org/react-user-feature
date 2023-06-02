@@ -19,7 +19,8 @@
     "ui-css-in-js": "*",
     "ui-atomic-css": "*",
     "utils-mui": "*",
-    "utils-version": "*"
+    "utils-version": "*",
+    "mock-data": "*"
   },
   "devDependencies": {
     "config-storybook": "*",

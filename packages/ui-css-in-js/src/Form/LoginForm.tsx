@@ -5,20 +5,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import { type FormEvent } from 'react';
 
-export const LoginForm = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+type LoginFormProps = {
+  onSubmit?: (event: FormEvent<HTMLFormElement>) => void | Promise<void>;
+};
 
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
+export const LoginForm = ({ onSubmit }: LoginFormProps) => {
   return (
-    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+    <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
       <TextField
         margin="normal"
         required

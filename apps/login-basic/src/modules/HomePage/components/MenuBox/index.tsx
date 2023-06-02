@@ -16,9 +16,7 @@ export const MenuBox = ({ isTiltEnabled, sx }: MenuProps) => {
   const router = useRouter();
 
   const handleMenuSelected = useCallback(
-    (menuSelection: MenuSelection) => () => {
-      void router.push(`/login/${menuSelection}`, undefined, { shallow: true });
-    },
+    (menuSelection: MenuSelection) => () => void router.push(`/login/${menuSelection}`, undefined, { shallow: true }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
