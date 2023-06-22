@@ -1,6 +1,14 @@
 # user-feature
 
-> Next.js Base
+> Next.js(React + TypeScript) Base
+
+## Base
+
+> 매번 로그인 절차를 거쳐야 하는 MVP적 프로세스
+
+- 지역/전역 상태만 유지하는 것이 한계이므로 사이트에서 이탈하거나 새로고침이 일어나면 인증 정보 초기화
+
+<br />
 
 ## Cookie
 
@@ -36,7 +44,7 @@
 ## Session
 
 - session 인증은 서버 측 작업 필요: [참고](https://hudi.blog/session-based-auth-vs-token-based-auth/)
-- 우리는 SessionStorage를 다뤄봅니다.
+- 우리는 Next.js의 API Routes를 사용하고 [iron-session 라이브러리](https://github.com/vvo/iron-session/tree/main)를 활용합니다.
 
 ### 문제점
 

@@ -39,6 +39,8 @@ module.exports = {
     '@typescript-eslint/ban-types': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'error',
     '@typescript-eslint/no-unnecessary-condition': 'error',
+    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-empty-function': 'off',
 
     'jsx-a11y/anchor-is-valid': ['off'],
 
