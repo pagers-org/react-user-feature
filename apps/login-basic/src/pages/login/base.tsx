@@ -1,11 +1,11 @@
 import Grid from '@mui/material/Grid';
 
-import { JWTLoginPage } from '@/modules';
+import { BaseLoginPage } from '@/modules';
 
-const JWTLogin = () => (
+const BaseLogin = () => (
   <Grid container component="main" sx={{ height: 'calc(100vh - 200px)' }}>
-    <JWTLoginPage />
+    <BaseLoginPage />
   </Grid>
 );
 
-export default JWTLogin;
+export default BaseLogin;

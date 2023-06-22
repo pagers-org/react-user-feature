@@ -5,7 +5,7 @@ import Tilt from 'react-parallax-tilt';
 
 import { TiltContent } from './styled';
 
-type MenuSelection = 'cookie-session' | 'jwt';
+type MenuSelection = 'base' | 'session' | 'token';
 
 type MenuProps = {
   isTiltEnabled: boolean;
@@ -40,11 +40,14 @@ export const MenuBox = ({ isTiltEnabled, sx }: MenuProps) => {
             marginTop: 2,
           }}
         >
-          <Button color="secondary" variant="contained" size="large" onClick={handleMenuSelected('cookie-session')}>
-            Cookie & Session
+          <Button color="success" variant="contained" size="large" onClick={handleMenuSelected('base')}>
+            Base
           </Button>
-          <Button variant="contained" size="large" onClick={handleMenuSelected('jwt')}>
-            JWT
+          <Button color="secondary" variant="contained" size="large" onClick={handleMenuSelected('session')}>
+            Session
+          </Button>
+          <Button variant="contained" size="large" onClick={handleMenuSelected('token')}>
+            Token(JWT)
           </Button>
         </Box>
       </TiltContent>

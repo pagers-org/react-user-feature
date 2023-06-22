@@ -4,14 +4,14 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import type { LoginResponse } from 'global/literal';
 import { type FormEvent, useCallback } from 'react';
 import { LoginForm, ImageCard, ProfileCard } from 'ui-css-in-js';
 
 import { request } from '@/api';
 import { useAuth } from '@/hooks';
-import { UserProps } from '@/types';
 
-export const JWTLoginPage = () => {
+export const BaseLoginPage = () => {
   const { user, login, logout } = useAuth();
 
   const handleSubmit = useCallback(async (event: FormEvent<HTMLFormElement>) => {
@@ -21,13 +21,11 @@ export const JWTLoginPage = () => {
     const email = data.get('email');
     const password = data.get('password');
 
-    const { user } = await request<{ message: string; user: UserProps }>('/api/auth/login', {
+    const { user } = await request<LoginResponse>('/api/auth/base/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
+      body: { email, password },
     });
+    if (!user) return alert('Not Valid User');
 
     login(user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
