@@ -22,8 +22,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
         label="Email Address"
         name="email"
         autoComplete="email"
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
+        value="john.smith@example.com"
       />
       <TextField
         margin="normal"
@@ -34,6 +33,7 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => {
         type="password"
         id="password"
         autoComplete="current-password"
+        value="password1"
       />
       <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
