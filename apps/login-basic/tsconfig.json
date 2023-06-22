@@ -2,6 +2,7 @@
   "extends": "config-tsconfig/tsconfig.nextjs.json",
   "compilerOptions": {
     "baseUrl": "src",
+    "typeRoots": ["@types"],
     "paths": {
       "@/*": ["./*"]
     }
