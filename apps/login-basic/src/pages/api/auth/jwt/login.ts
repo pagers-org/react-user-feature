@@ -2,7 +2,7 @@ import { setCookie } from 'cookies-next';
 import type { CustomNextApiRequest } from 'global/custom';
 import type { NextApiResponse } from 'next';
 
-import { COOKIE_KEY, ONE_DAY } from '@/constants/common';
+import { SECRET_KEY, ONE_DAY } from '@/constants/common';
 import { Token } from '@/libs/token';
 import { findUserByEmailPassword } from '@/libs/user';
 
@@ -12,7 +12,7 @@ export default function handler(req: CustomNextApiRequest, res: NextApiResponse)
 
   try {
     const token = Token.encode({ id: user.id });
-    setCookie(COOKIE_KEY, token, { req, res, maxAge: ONE_DAY, path: '/', httpOnly: true, secure: true });
+    setCookie(SECRET_KEY, token, { req, res, maxAge: ONE_DAY, path: '/', httpOnly: true, secure: true });
 
     res.status(200).json({ message: 'success' });
   } catch (error) {

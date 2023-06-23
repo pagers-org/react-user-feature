@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 import { getCookie } from 'cookies-next';
 import type { GetServerSidePropsContext } from 'next';
 
-import { COOKIE_KEY } from '@/constants/common';
+import { SECRET_KEY } from '@/constants/common';
 import { Token } from '@/libs/token';
 import { TokenLoginPage } from '@/modules';
 
@@ -15,7 +15,7 @@ const TokenLogin = () => (
 export default TokenLogin;
 
 export const getServerSideProps = async ({ req, res }: GetServerSidePropsContext) => {
-  const cookie = getCookie(COOKIE_KEY, { req, res });
+  const cookie = getCookie(SECRET_KEY, { req, res });
   const isValid = await hasValidToken(cookie as string);
   return isValid ? { redirect: { destination: '/profile?auth=token', permanent: false } } : { props: {} };
 };

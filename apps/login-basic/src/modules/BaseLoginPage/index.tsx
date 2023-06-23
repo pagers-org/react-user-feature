@@ -9,7 +9,7 @@ import { type FormEvent, useCallback } from 'react';
 import { LoginForm, ImageCard, ProfileCard } from 'ui-css-in-js';
 
 import { request } from '@/api';
-import { useAuth } from '@/hooks';
+import { useAuth } from '@/hooks/useBaseAuth';
 
 export const BaseLoginPage = () => {
   const { user, login, logout } = useAuth();

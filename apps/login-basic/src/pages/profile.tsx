@@ -6,7 +6,7 @@ import { useCallback, useEffect } from 'react';
 import { ProfileCard } from 'ui-css-in-js';
 
 import { request } from '@/api';
-import { useAuth } from '@/hooks';
+import { useAuth } from '@/hooks/useBaseAuth';
 
 type ProfileProps = {
   pageKey: 'session' | 'token';

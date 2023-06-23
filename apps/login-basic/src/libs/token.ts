@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-import { COOKIE_KEY } from '@/constants/common';
+import { SECRET_KEY } from '@/constants/common';
 
 export const Token = {
-  encode: (data: Record<string, string>, password = COOKIE_KEY) => {
+  encode: (data: Record<string, string>, password = SECRET_KEY) => {
     return jwt.sign(data, password, { expiresIn: '6h' });
   },
-  decode: <T>(token: string, password = COOKIE_KEY): Promise<T> => {
+  decode: <T>(token: string, password = SECRET_KEY): Promise<T> => {
     return new Promise<T>((resolve, reject) => {
       jwt.verify(token, password, (error, decoded) => {
         if (error) {
