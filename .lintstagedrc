@@ -1,4 +1,4 @@
 {
   "*": ["pretty-quick --staged"],
-  "!(apps/[login-basic|login-oauth]/**/*)*.{js,jsx,ts,tsx}": ["eslint --ext .js,.d.ts"]
+  "*.{js,jsx,ts,tsx}": ["eslint --ext .js,.d.ts"]
 }

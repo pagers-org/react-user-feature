@@ -55,7 +55,7 @@ module.exports = {
 
     'import/no-default-export': 'error',
     'import/order': [
-      'error',
+      'warn',
       {
         groups: ['builtin', 'external', 'internal', 'parent', 'sibling'],
         'newlines-between': 'always',
