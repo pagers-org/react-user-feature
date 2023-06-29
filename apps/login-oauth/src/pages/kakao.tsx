@@ -1,14 +1,23 @@
-import { GetServerSidePropsContext } from 'next';
+import type { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
 
-const Kakao = () => <div>카카오 리다이렉트 페이지</div>;
+import { authOptions } from './api/auth/[...nextauth]';
+
+type KakaoPageProps = {
+  user: unknown;
+};
+
+const Kakao = ({ user }: KakaoPageProps) => <div>{JSON.stringify(user, undefined, 2)}</div>;
 
 export default Kakao;
 
-export const getServerSideProps = ({ query, params }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ req, res, query, params }: GetServerSidePropsContext) => {
+  const session = await getServerSession(req, res, authOptions);
   console.log('query: ', query);
   console.log('params: ', params);
+  console.log('session: ', session);
 
   return {
-    props: {},
+    props: { user: session?.user },
   };
 };
