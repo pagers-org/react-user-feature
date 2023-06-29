@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
-
-import { useLayoutEffect } from 'react';
+import { MouseEvent, useCallback, useLayoutEffect } from 'react';
 import { Input, Ripple, initTE } from 'tw-elements';
 
 import { KAKAO_AUTH_URL } from '@/constants/common';
@@ -8,6 +7,11 @@ import { KAKAO_AUTH_URL } from '@/constants/common';
 export const HomePage = () => {
   useLayoutEffect(() => {
     initTE({ Input, Ripple });
+  }, []);
+
+  const handleSocialLogin = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    console.log('?!');
   }, []);
 
   return (
@@ -107,57 +111,113 @@ export const HomePage = () => {
                     </svg>
                     Continue with Facebook
                   </a> */}
-                  <a
-                    className="mb-3 flex w-full items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
-                    style={{ backgroundColor: '#FFFFFF' }}
-                    href="#!"
-                    role="button"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="mr-2 h-3.5 w-3.5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
+                  <div className="flex justify-between w-full">
+                    <a
+                      className="mb-3 flex w-[48%] items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                      style={{ backgroundColor: '#FFFFFF' }}
+                      href="#!"
+                      role="button"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
                     >
-                      <path
-                        d="M12.4098 6.65573C14.1766 6.65573 15.3685 7.42264 16.0481 8.06345L18.7037 5.45818C17.0726 3.93491 14.9503 3 12.4098 3C8.72957 3 5.55123 5.122 4.00391 8.21045L7.04635 10.5846C7.80952 8.305 9.92141 6.65573 12.4098 6.65573Z"
-                        fill="#EA4335"
-                      />
-                      <path
-                        d="M21.4433 12.6647C21.4433 11.8873 21.3806 11.32 21.2446 10.7318H12.4102V14.2404H17.5959C17.4913 15.1123 16.9267 16.4255 15.6721 17.3078L18.6413 19.619C20.4187 17.9697 21.4433 15.543 21.4433 12.6647Z"
-                        fill="#4285F4"
-                      />
-                      <path
-                        d="M7.05659 14.3244C6.8579 13.7362 6.74291 13.1058 6.74291 12.4545C6.74291 11.8032 6.8579 11.1729 7.0461 10.5846L4.00365 8.21045C3.36598 9.49209 3 10.9313 3 12.4545C3 13.9777 3.36598 15.417 4.00365 16.6985L7.05659 14.3244Z"
-                        fill="#FBBC05"
-                      />
-                      <path
-                        d="M12.41 21.9091C14.9506 21.9091 17.0834 21.0687 18.6412 19.619L15.672 17.3079C14.8774 17.8646 13.811 18.2534 12.41 18.2534C9.92175 18.2534 7.80985 16.604 7.05709 14.3245L4.01465 16.6986C5.56197 19.7871 8.72991 21.9091 12.41 21.9091Z"
-                        fill="#34A853"
-                      />
-                    </svg>
-                    Continue with Google
-                  </a>
-                  <a
-                    className="mb-3 flex w-full items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
-                    style={{ backgroundColor: '#FEE500' }}
-                    href={KAKAO_AUTH_URL}
-                    role="button"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="mr-2 h-3.5 w-3.5"
-                      fill="#000000"
-                      viewBox="0 0 24 24"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mr-2 h-3.5 w-3.5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12.4098 6.65573C14.1766 6.65573 15.3685 7.42264 16.0481 8.06345L18.7037 5.45818C17.0726 3.93491 14.9503 3 12.4098 3C8.72957 3 5.55123 5.122 4.00391 8.21045L7.04635 10.5846C7.80952 8.305 9.92141 6.65573 12.4098 6.65573Z"
+                          fill="#EA4335"
+                        />
+                        <path
+                          d="M21.4433 12.6647C21.4433 11.8873 21.3806 11.32 21.2446 10.7318H12.4102V14.2404H17.5959C17.4913 15.1123 16.9267 16.4255 15.6721 17.3078L18.6413 19.619C20.4187 17.9697 21.4433 15.543 21.4433 12.6647Z"
+                          fill="#4285F4"
+                        />
+                        <path
+                          d="M7.05659 14.3244C6.8579 13.7362 6.74291 13.1058 6.74291 12.4545C6.74291 11.8032 6.8579 11.1729 7.0461 10.5846L4.00365 8.21045C3.36598 9.49209 3 10.9313 3 12.4545C3 13.9777 3.36598 15.417 4.00365 16.6985L7.05659 14.3244Z"
+                          fill="#FBBC05"
+                        />
+                        <path
+                          d="M12.41 21.9091C14.9506 21.9091 17.0834 21.0687 18.6412 19.619L15.672 17.3079C14.8774 17.8646 13.811 18.2534 12.41 18.2534C9.92175 18.2534 7.80985 16.604 7.05709 14.3245L4.01465 16.6986C5.56197 19.7871 8.72991 21.9091 12.41 21.9091Z"
+                          fill="#34A853"
+                        />
+                      </svg>
+                      Google Login
+                    </a>
+                    <a
+                      className="mb-3 flex w-[48%] items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                      style={{ backgroundColor: '#FFFFFF' }}
+                      href="#!"
+                      role="button"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
                     >
-                      <path d="M11.9994 3C7.01269 3 2.47021 6.33498 2.47021 10.4488C2.47021 13.0065 4.11991 15.2631 6.63257 16.6038L5.5753 20.5113C5.48212 20.8578 5.87231 21.1324 6.17249 20.9324L10.8066 17.8374C11.1978 17.8757 11.5954 17.8976 11.9994 17.8976C17.2629 17.8976 21.529 14.5626 21.529 10.4488C21.529 6.33498 17.2629 3 11.9994 3Z"></path>
-                    </svg>
-                    Continue with Kakao
-                  </a>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mr-2 h-3.5 w-3.5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12.4098 6.65573C14.1766 6.65573 15.3685 7.42264 16.0481 8.06345L18.7037 5.45818C17.0726 3.93491 14.9503 3 12.4098 3C8.72957 3 5.55123 5.122 4.00391 8.21045L7.04635 10.5846C7.80952 8.305 9.92141 6.65573 12.4098 6.65573Z"
+                          fill="#EA4335"
+                        />
+                        <path
+                          d="M21.4433 12.6647C21.4433 11.8873 21.3806 11.32 21.2446 10.7318H12.4102V14.2404H17.5959C17.4913 15.1123 16.9267 16.4255 15.6721 17.3078L18.6413 19.619C20.4187 17.9697 21.4433 15.543 21.4433 12.6647Z"
+                          fill="#4285F4"
+                        />
+                        <path
+                          d="M7.05659 14.3244C6.8579 13.7362 6.74291 13.1058 6.74291 12.4545C6.74291 11.8032 6.8579 11.1729 7.0461 10.5846L4.00365 8.21045C3.36598 9.49209 3 10.9313 3 12.4545C3 13.9777 3.36598 15.417 4.00365 16.6985L7.05659 14.3244Z"
+                          fill="#FBBC05"
+                        />
+                        <path
+                          d="M12.41 21.9091C14.9506 21.9091 17.0834 21.0687 18.6412 19.619L15.672 17.3079C14.8774 17.8646 13.811 18.2534 12.41 18.2534C9.92175 18.2534 7.80985 16.604 7.05709 14.3245L4.01465 16.6986C5.56197 19.7871 8.72991 21.9091 12.41 21.9091Z"
+                          fill="#34A853"
+                        />
+                      </svg>
+                      Google NextAuth Login
+                    </a>
+                  </div>
+                  <div className="flex justify-between w-full">
+                    <a
+                      className="mb-3 flex w-[48%] items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                      style={{ backgroundColor: '#FEE500' }}
+                      href={KAKAO_AUTH_URL}
+                      role="button"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mr-2 h-3.5 w-3.5"
+                        fill="#000000"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M11.9994 3C7.01269 3 2.47021 6.33498 2.47021 10.4488C2.47021 13.0065 4.11991 15.2631 6.63257 16.6038L5.5753 20.5113C5.48212 20.8578 5.87231 21.1324 6.17249 20.9324L10.8066 17.8374C11.1978 17.8757 11.5954 17.8976 11.9994 17.8976C17.2629 17.8976 21.529 14.5626 21.529 10.4488C21.529 6.33498 17.2629 3 11.9994 3Z"></path>
+                      </svg>
+                      Kakao Login
+                    </a>
+                    <a
+                      className="mb-3 flex w-[48%] items-center justify-center rounded bg-info px-7 pb-2.5 pt-3 text-center text-sm font-medium uppercase leading-normal text-black shadow-[0_4px_9px_-4px_#54b4d3] transition duration-150 ease-in-out hover:bg-info-600 hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:bg-info-600 focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] focus:outline-none focus:ring-0 active:bg-info-700 active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.3),0_4px_18px_0_rgba(84,180,211,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(84,180,211,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(84,180,211,0.2),0_4px_18px_0_rgba(84,180,211,0.1)]"
+                      style={{ backgroundColor: '#FEE500' }}
+                      href="#!"
+                      onClick={handleSocialLogin}
+                      role="button"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="mr-2 h-3.5 w-3.5"
+                        fill="#000000"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M11.9994 3C7.01269 3 2.47021 6.33498 2.47021 10.4488C2.47021 13.0065 4.11991 15.2631 6.63257 16.6038L5.5753 20.5113C5.48212 20.8578 5.87231 21.1324 6.17249 20.9324L10.8066 17.8374C11.1978 17.8757 11.5954 17.8976 11.9994 17.8976C17.2629 17.8976 21.529 14.5626 21.529 10.4488C21.529 6.33498 17.2629 3 11.9994 3Z"></path>
+                      </svg>
+                      Kakao NextAuth Login
+                    </a>
+                  </div>
                 </form>
               </div>
             </div>
