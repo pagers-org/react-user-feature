@@ -12,7 +12,6 @@ export const HomePage = () => {
 
   const handleSocialLogin = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    console.log('?!');
 
     void signIn('kakao', { callbackUrl: `http://localhost:3101/kakao` });
   }, []);
