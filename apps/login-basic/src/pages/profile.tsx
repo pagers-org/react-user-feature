@@ -1,22 +1,30 @@
 import Grid from '@mui/material/Grid';
-import type { LoginResponse } from 'global/literal';
+import { getCookie } from 'cookies-next';
+import type { LoginResponse, User } from 'global/literal';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { ProfileCard } from 'ui-css-in-js';
 
-import { request } from '@/api';
+import { nodeRequest, request } from '@/api';
+import { SECRET_KEY } from '@/constants/common';
 import { useAuth } from '@/hooks/useBaseAuth';
 
 type ProfileProps = {
   pageKey: 'session' | 'token';
+  ssrUser?: User;
 };
 
-const Profile = ({ pageKey }: ProfileProps) => {
+const Profile = ({ pageKey, ssrUser }: ProfileProps) => {
   const router = useRouter();
   const { user, login, logout } = useAuth(true);
 
   useEffect(() => {
+    if (ssrUser) {
+      login(ssrUser);
+      return;
+    }
+
     const fetchUserData = async () => {
       const { user } = await request<LoginResponse>(`/api/user/${pageKey}/me`);
       if (!user) return router.replace('/');
@@ -49,9 +57,22 @@ const Profile = ({ pageKey }: ProfileProps) => {
 
 export default Profile;
 
-export const getServerSideProps = ({ query }: GetServerSidePropsContext) => {
+export const getServerSideProps = async ({ query, req, res }: GetServerSidePropsContext) => {
   const pageKey = queryParser(query);
   if (!pageKey) return { redirect: { destination: '/', permanent: false } };
+  if (pageKey === 'token') {
+    const token = getCookie(SECRET_KEY, { req, res });
+    if (!token || typeof token !== 'string') return { redirect: { destination: '/', permanent: false } };
+
+    const { user } = await nodeRequest<LoginResponse>(`http://localhost:3100/api/user/token/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!user) return { redirect: { destination: '/', permanent: false } };
+    return { props: { pageKey, ssrUser: user } };
+  }
 
   return { props: { pageKey } };
 };

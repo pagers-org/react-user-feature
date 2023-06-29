@@ -20,7 +20,7 @@ export const TokenLoginPage = () => {
     const email = data.get('email');
     const password = data.get('password');
 
-    const { message } = await request<{ message: string }>('/api/auth/token/login', {
+    const { message } = await request<{ message: string }>('/api/auth/jwt/login', {
       method: 'POST',
       body: { email, password },
     });
