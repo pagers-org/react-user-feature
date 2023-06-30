@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
+import { signIn } from 'next-auth/react';
 import { MouseEvent, useCallback, useLayoutEffect } from 'react';
 import { Input, Ripple, initTE } from 'tw-elements';
 
-import { KAKAO_AUTH_URL } from '@/constants/common';
+import { KAKAO_AUTH_URL, KAKAO_REDIRECT_URL } from '@/constants/common';
 
 export const HomePage = () => {
   useLayoutEffect(() => {
@@ -11,7 +12,8 @@ export const HomePage = () => {
 
   const handleSocialLogin = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    console.log('?!');
+
+    void signIn('kakao', { callbackUrl: KAKAO_REDIRECT_URL });
   }, []);
 
   return (
